@@ -1,8 +1,8 @@
 rm(list = ls())
-# source(file = "scripts/distributions.R")
-# source(file = "scripts/simulate_collusion.R")
-# source(file = "scripts/cartel_duration.R")
-library(simcol)
+source(file = "scripts/distributions.R")
+source(file = "scripts/simulate_collusion.R")
+source(file = "scripts/cartel_duration.R")
+#library(simcol)
 
 # Set Seed for Reproducibility
 sim_seed <- 123

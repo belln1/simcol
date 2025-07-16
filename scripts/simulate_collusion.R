@@ -1,7 +1,6 @@
-
 library(dplyr)
 library(EnvStats)
-#library(assertthat)
+library(assertthat)
 
 is_IC <- function(pi, icc){
   pi < icc
