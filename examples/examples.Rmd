@@ -1,0 +1,103 @@
+---
+title: 'Simulate Collusion: Application Examples for Cartel Simulation based on Harrington/Chang
+  (2015)'
+geometry: margin=1cm
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+---
+```{r}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, tidy=TRUE, tidy.opts = list(width.cutoff=80))
+```
+```{r}
+rm(list = ls())
+```
+
+```{r, include=FALSE}
+library(dplyr)
+library(tidyr)
+library(psych)
+library(ggplot2)
+library(ggfortify) 
+library(forecast)
+library(simcol)
+```
+
+Set Seed for Reproducibility
+```{r}
+sim_seed <- 123
+set.seed(sim_seed)
+```
+
+Read in Data. Baseline Model 1 with default parameters.
+```{r}
+sim_list <- sim_col()
+cartels_duration <- get_cartel_duration(sim_list$cartels, sim_list$detection, sim_list$leniency)
+```
+
+Combine data and parameters
+```{r}
+cartels_duration <- left_join(cartels_duration, sim_list$input_ind, by="industry")
+```
+
+Simple panel data for time series plot
+```{r}
+num_industries <- nrow(sim_list$input_ind)
+periods <- nrow(sim_list$cartels)
+cartels_population <- sim_list$cartels
+sample_duration <- filter(cartels_duration, detected==1)
+cartels_sample <- get_sample_panel(sample_duration, periods, num_industries)
+leniency_duration <- filter(cartels_duration, leniency==1)
+if (nrow(leniency_duration)>0){
+  cartels_leniency <- get_sample_panel(leniency_duration, periods, num_industries)
+}
+```
+
+Plot cartel time series
+```{r}
+c_det <- rowSums(cartels_sample)/num_industries # number of detected cartels / number of industries
+c_pop <- rowSums(cartels_population)/num_industries # number of cartels / number of industries
+if (nrow(leniency_duration)>0){
+  c_len <- rowSums(cartels_leniency)/num_industries # number of cartels / number of industries
+} else {
+  c_len <- (rep(0, length(c_pop)))
+}
+sim_cartels <- ts(data = cbind(c_pop, c_det, c_len))
+colnames(sim_cartels) <- c("Population", "Sample", "Leniency")
+pallete <- c('blue', 'red', 'green')
+y_label <- "Percentage of cartels"
+x_label <- "Time"
+
+plot <- autoplot(sim_cartels*100, alpha=0.5) +
+  ylim(c(0,25)) +
+  xlab("Time") +
+  ylab("Percentage of cartels") +
+  ggtitle("Aggregated Simulated Cartels per Industry over Time") +
+  scale_colour_manual(values=pallete) + 
+  theme(legend.title = element_blank(), plot.title = element_text(hjust = 0.5))
+plot
+```
+Summary Statistics
+```{r}
+describe(cartels_duration)
+```
+
+Correlations
+```{r}
+df_cor <-  Filter(function(x) sd(x) != 0, cartels_duration)
+df_cor <- select(df_cor, -c(industry, cartel))
+cor(df_cor)
+```
+Mean comparison tests for sumstats
+```{r}
+t.test(duration ~ detected, data=cartels_duration, var.equal = FALSE)
+t.test(eta ~ detected, data=cartels_duration, var.equal = FALSE)
+t.test(K ~ detected, data=cartels_duration, var.equal = FALSE)
+```
+
+Linear Regression
+```{r}
+reg <- lm(log(duration) ~ K + log(eta) + log(nTc+1), data = cartels_duration)
+summary(reg)
+```
