@@ -1,0 +1,11 @@
+Package: simcol
+Type: Package
+Title: Simulate Collusion
+Version: 1.0.1
+Authors@R: c(person("Nicole", "Bellert", , email="bell@zhaw.ch", role = c("aut", "cre")))
+Description: Simulation of industries with collusive and non-collusive periods over time, detected and undetected, based on Harrington/Chang (2015). This simulation is described in detail in the paper "Simulating Collusion and Enforcement" by Bellert and Günster (2025). The package provides a function sim_col() that can be used to generate a ground-truth panel dataset for collusion, and a function get_cartel_duration() that generates a cross-sectional dataset from the panel data.
+License: GPL-3
+Imports: dplyr, EnvStats
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
