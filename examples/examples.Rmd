@@ -101,3 +101,16 @@ Linear Regression
 reg <- lm(log(duration) ~ K + log(eta) + log(nTc+1), data = cartels_duration)
 summary(reg)
 ```
+Further Research: Convert to Paneldata
+```{r}
+# num_industries <- nrow(sim_list$input_ind)
+# periods <- nrow(sim_list$cartels)
+cartels_population <- data.frame(sim_list$cartels)
+df_panel <- get_paneldata(cartels_population, cartels_duration, periods, num_industries)
+
+# Combine df with inputs
+df1 <- df_panel %>%
+  left_join(sim_list$input_ind, by=c("industry"))
+head(df1)
+```
+

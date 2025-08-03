@@ -15,7 +15,7 @@ cartels_duration <- get_cartel_duration(sim_list$cartels, sim_list$detection, si
 ################################################################################################
 
 # Model 2A: sigma > theta, all firms apply for leniency when cartel collapses, no inactive undetected cartels
-sim_list <- sim_col(model = "2", periods = 10, n_ind = 10, theta = 0.035)
+sim_list <- sim_col(model = "2", periods = 100, n_ind = 100, theta = 0.035)
 cartels_duration <- get_cartel_duration(sim_list$cartels, sim_list$detection, sim_list$leniency)
 # assert_that(nrow(filter(cartels_duration, in_sample==0 & end < 10)) == 0)
 # assert_that(nrow(cartels_duration) == 1)
