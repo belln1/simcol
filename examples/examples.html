@@ -1756,6 +1756,20 @@ summary(reg)</code></pre>
 ## Residual standard error: 0.862 on 250 degrees of freedom
 ## Multiple R-squared:  0.2494, Adjusted R-squared:  0.2404 
 ## F-statistic: 27.69 on 3 and 250 DF,  p-value: 1.699e-15</code></pre>
+<p>Further Research: Convert to Paneldata</p>
+<pre class="r"><code># num_industries &lt;- nrow(sim_list$input_ind) periods &lt;- nrow(sim_list$cartels)
+cartels_population &lt;- data.frame(sim_list$cartels)
+df_panel &lt;- get_paneldata(cartels_population, cartels_duration, periods, num_industries)
+
+# Combine df with inputs
+df1 &lt;- df_panel %&gt;%
+    left_join(sim_list$input_ind, by = c(&quot;industry&quot;))
+head(df1)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["industry"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["period"],"name":[2],"type":["int"],"align":["right"]},{"label":["in_cartel"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["detected"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["leniency"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["in_sample"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["R"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["delta"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["pi_mean"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["pi_sd"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["MU"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["pi_min"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["pi_max"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["K"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["eta"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["prob_leniency"],"name":[16],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0.85","9":"0","10":"1.5","11":"4.080217","12":"1","13":"100","14":"0.02875775","15":"3.879497","16":"1"},{"1":"1","2":"2","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0.85","9":"0","10":"1.5","11":"4.080217","12":"1","13":"100","14":"0.02875775","15":"3.879497","16":"1"},{"1":"1","2":"3","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0.85","9":"0","10":"1.5","11":"4.080217","12":"1","13":"100","14":"0.02875775","15":"3.879497","16":"1"},{"1":"1","2":"4","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0.85","9":"0","10":"1.5","11":"4.080217","12":"1","13":"100","14":"0.02875775","15":"3.879497","16":"1"},{"1":"1","2":"5","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0.85","9":"0","10":"1.5","11":"4.080217","12":"1","13":"100","14":"0.02875775","15":"3.879497","16":"1"},{"1":"1","2":"6","3":"0","4":"0","5":"0","6":"0","7":"0","8":"0.85","9":"0","10":"1.5","11":"4.080217","12":"1","13":"100","14":"0.02875775","15":"3.879497","16":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 
 
 
