@@ -3,9 +3,9 @@ title: 'Simulate Collusion: Application Examples for Cartel Simulation based on 
   (2015)'
 geometry: margin=1cm
 output:
+  word_document: default
   html_document:
     df_print: paged
-  word_document: default
 ---
 ```{r}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, tidy=TRUE, tidy.opts = list(width.cutoff=80))
